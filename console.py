@@ -123,41 +123,42 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        try:
+            new_instance = HBNBCommand.classes[class_name]()
 
-        new_instance = HBNBCommand.classes[class_name]()
+            for parameter in args[1:]:
+                parameter_key = parameter.split('=')[0]
+                parameter_value = parameter.split('=')[1]
 
-        parameters = {}
-        for parameter in args[1:]:
-            parameter_key = parameter.split('=')[0]
-            parameter_value = parameter.split('=')[1]
+                if parameter_value.startswith('"') \
+                        and parameter_value.endswith('"'):
+                    parameter_value = parameter_value[1:-1]\
+                        .replace('\\"', '"')\
+                        .replace('_', ' ')
+                    try:
+                        parameter_value = str(parameter_value)
+                    except ValueError:
+                        continue
 
-            if parameter_value.startswith('"') \
-                    and parameter_value.endswith('"'):
-                parameter_value = parameter_value[1:-1] \
-                    .replace('_', ' ') \
-                    .replace('\\"', '"')
-                try:
-                    parameter_value = str(parameter_value)
-                except ValueError:
+                elif '.' in parameter_value:
+                    try:
+                        parameter_value = float(parameter_value)
+                    except ValueError:
+                        continue
+
+                elif parameter_value.isdigit():
+                    try:
+                        parameter_value = int(parameter_value)
+                    except ValueError:
+                        continue
+                else:
                     continue
 
-            elif '.' in parameter_value:
-                try:
-                    parameter_value = float(parameter_value)
-                except ValueError:
-                    continue
-
-            elif parameter_value.isdigit():
-                try:
-                    parameter_value = int(parameter_value)
-                except ValueError:
-                    continue
-            else:
-                continue
-
-            setattr(new_instance, parameter_key, parameter_value)
-        new_instance.save()
-        print(new_instance.id)
+                setattr(new_instance, parameter_key, parameter_value)
+            new_instance.save()
+            print(new_instance.id)
+        except Exception as e:
+            print(str(e))
 
     def help_create(self):
         """ Help information for the create method """

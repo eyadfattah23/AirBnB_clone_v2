@@ -123,8 +123,8 @@ class HBNBCommand(cmd.Cmd):
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        new_instance = HBNBCommand.classes[class_name]()
         try:
-            new_instance = HBNBCommand.classes[class_name]()
 
             for parameter in args[1:]:
                 parameter_key = parameter.split('=')[0]
@@ -132,18 +132,13 @@ class HBNBCommand(cmd.Cmd):
 
                 if parameter_value.startswith('"') \
                         and parameter_value.endswith('"'):
-                    parameter_value = parameter_value[1:-1]\
-                        .replace('\\"', '"')\
-                        .replace('_', ' ')
-                    try:
-                        parameter_value = str(parameter_value)
-                    except ValueError:
-                        continue
+                    parameter_value = parameter_value[1:-1].replace('"', r'\"')
+                    parameter_value = parameter_value.replace('_', ' ')
 
                 elif '.' in parameter_value:
                     try:
                         parameter_value = float(parameter_value)
-                    except ValueError:
+                    except Exception as e:
                         continue
 
                 elif parameter_value.isdigit():

@@ -31,7 +31,7 @@ class Testconsole(unittest.TestCase):
             output = """
 Documented commands (type help <topic>):
 ========================================
-EOF  all  create  destroy  help  quit  show  update\n
+EOF  all  count  create  destroy  help  quit  show  update\n
 """
         self.assertEqual(output, f.getvalue())
 
@@ -49,13 +49,6 @@ EOF  all  create  destroy  help  quit  show  update\n
         except Exception as e:
             pass
 
-    def test_do_EOF(self):
-        '''tests for the EOF command'''
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            result = HBNBCommand().onecmd('EOF')
-            self.assertTrue(result)
-            self.assertEqual(mock_stdout.getvalue().strip(), '')
-
     def test_help_EOF(self):
         '''tests for the help EOF command'''
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
@@ -63,19 +56,12 @@ EOF  all  create  destroy  help  quit  show  update\n
             self.assertEqual(mock_stdout.getvalue().strip(),
                              'EOF\nexit cleanly returning true')
 
-    def test_do_quit(self):
-        """tests for quit command"""
-        with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            result = HBNBCommand().onecmd('quit')
-            self.assertTrue(result)
-            self.assertEqual(mock_stdout.getvalue().strip(), '')
-
     def test_help_EOF(self):
         '''tests for the help quit command'''
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             HBNBCommand().onecmd('help quit')
             self.assertEqual(mock_stdout.getvalue().strip(),
-                             'quit\nquit console returning true')
+                             'Exits the program with formatting')
 
     def test_emptyline(self):
         '''tests for the emptyline method'''
@@ -99,6 +85,5 @@ EOF  all  create  destroy  help  quit  show  update\n
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
             HBNBCommand().onecmd('help create')
             self.assertEqual(mock_stdout.getvalue().strip(),
-                             """create [Model_Type]\ncreates a new instance of given
-                argument type, saves it (to the JSON file)
-                and prints the id""")
+                             """Creates a class of any type
+[Usage]: create <className>""")

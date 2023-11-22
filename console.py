@@ -118,39 +118,46 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-
-        args_list = args.split()
-
-        if args_list[0] not in HBNBCommand.classes:
+        args = args.split()
+        class_name = args[0]
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
 
-        new_instance = HBNBCommand.classes[args_list[0]]()
+        new_instance = HBNBCommand.classes[class_name]()
 
-        parameters = args_list[1:]
+        parameters = {}
+        for parameter in args[1:]:
+            parameter_key = parameter.split('=')[0]
+            parameter_value = parameter.split('=')[1]
 
-        for parameter in parameters:
-            if '=' not in parameter:
+            if parameter_value.startswith('"') \
+                    and parameter_value.endswith('"'):
+                parameter_value = parameter_value[1:-1] \
+                    .replace('_', ' ') \
+                    .replace('\\"', '"')
+                try:
+                    parameter_value = str(parameter_value)
+                except ValueError:
+                    continue
+
+            elif '.' in parameter_value:
+                try:
+                    parameter_value = float(parameter_value)
+                except ValueError:
+                    continue
+
+            elif parameter_value.isdigit():
+                try:
+                    parameter_value = int(parameter_value)
+                except ValueError:
+                    continue
+            else:
                 continue
 
-            parameter_key = parameter.split('=')[0]
-            parameter_value = eval(parameter.split('=')[1])
-            parameter_value_str = parameter.split('=')[1]
-
-            if isinstance(parameter_value, str):
-
-                if parameter_value_str.startswith('"') and parameter_value_str.endswith('"'):
-                    parameter_value_str = parameter_value_str[1:-1].replace(
-                        '_', ' ').replace('\\"', '"')
-
-                # i don't know how to set the values yet, if u know please do it
-                '''place ur code here'''
-            elif isinstance(parameter_value, float) or isinstance(parameter_value, int):
-                '''and here'''
-
-        storage.save()
+            setattr(new_instance, parameter_key, parameter_value)
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """

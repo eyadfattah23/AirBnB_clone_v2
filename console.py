@@ -114,51 +114,50 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """ Create an object of any class """
+
         if not args:
             print("** class name missing **")
             return
-        args = args.split()
-        class_name = args[0]
+
+        arguments = args.split()
+        class_name = arguments[0]
+        parameters = arguments[1:]
+
         if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+
+        if len(arguments) < 1:
+            print("Usage: create <Class name> <param 1> \
+                <param 2> <param 3>...")
+            return
+
         try:
             new_instance = HBNBCommand.classes[class_name]()
-
-            for parameter in args[1:]:
-                parameter_key = parameter.split('=')[0]
-                parameter_value = parameter.split('=')[1]
-
-                if parameter_value.startswith('"') \
-                        and parameter_value.endswith('"'):
-                    parameter_value = parameter_value[1:-1]\
-                        .replace('\\"', '"')\
-                        .replace('_', ' ')
-                    try:
-                        parameter_value = str(parameter_value)
-                    except ValueError:
-                        continue
-
-                elif '.' in parameter_value:
-                    try:
-                        parameter_value = float(parameter_value)
-                    except ValueError:
-                        continue
-
-                elif parameter_value.isdigit():
-                    try:
-                        parameter_value = int(parameter_value)
-                    except ValueError:
-                        continue
-                else:
-                    continue
-
-                setattr(new_instance, parameter_key, parameter_value)
+            for param in parameters:
+                key_value = param.split('=')
+                if len(key_value) == 2:
+                    key, value = key_value
+                    if value.startswith('"') and value.endswith('"'):
+                        value = value[1:-
+                                      1].replace('_', ' ').replace('\\"', '"')
+                    elif '.' in value:
+                        try:
+                            value = float(value)
+                        except ValueError:
+                            continue
+                    else:
+                        try:
+                            value = int(value)
+                        except ValueError:
+                            continue
+                setattr(new_instance, key, value)
             new_instance.save()
             print(new_instance.id)
+            storage.save()
         except Exception as e:
-            print(str(e))
+            print(f"Object not created: {str(e)}")
 
     def help_create(self):
         """ Help information for the create method """

@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -118,42 +119,35 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        args = args.split()
-        class_name = args[0]
-        if class_name not in HBNBCommand.classes:
+        args_parts = shlex.split(args)
+        className = args_parts[0]  # state
+        pairs = args_parts[1:]  # ['name=Cairo', 'id=4dc46rec']
+
+        if className not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[class_name]()
-        try:
 
-            for parameter in args[1:]:
-                parameter_key = parameter.split('=')[0]
-                parameter_value = parameter.split('=')[1]
+        # now obj created- set attr
+        new_instance = HBNBCommand.classes[className]()
+        # loop key value pairs to extract each and setattr of new obj
+        for pair in pairs:
+            parts = pair.split("=")
 
-                if parameter_value.startswith('"') \
-                        and parameter_value.endswith('"'):
-                    parameter_value = parameter_value[1:-1].replace('"', r'\"')
-                    parameter_value = parameter_value.replace('_', ' ')
+            attr_name = parts[0]
+            attr_value = parts[1]
+            # remove internal double quotes
+            attr_value = attr_value.replace('"', r'\"')
+            attr_value = attr_value.replace('_', ' ')
 
-                elif '.' in parameter_value:
-                    try:
-                        parameter_value = float(parameter_value)
-                    except Exception as e:
-                        continue
+            if '.' in attr_value:
+                attr_value = float(attr_value)
+            elif attr_value.isdigit():
+                attr_value = int(attr_value)
+            else:
+                setattr(new_instance, attr_name, attr_value)
 
-                elif parameter_value.isdigit():
-                    try:
-                        parameter_value = int(parameter_value)
-                    except ValueError:
-                        continue
-                else:
-                    continue
-
-                setattr(new_instance, parameter_key, parameter_value)
-            new_instance.save()
-            print(new_instance.id)
-        except Exception as e:
-            print(str(e))
+        new_instance.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """

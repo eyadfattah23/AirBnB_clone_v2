@@ -48,7 +48,7 @@ sudo echo "server {
     server_name localhost;
 
 
-    add_header X-Served-By 338638-web-01;
+    add_header X-Served-By $HOSTNAME;
 
     location / {
 		try_files  / =404;

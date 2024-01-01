@@ -41,7 +41,7 @@ sudo chown -R ubuntu:ubuntu /data/
 # Update the Nginx configuration to serve the content of /data/web_static/current/ to hbnb_static
 sudo echo "server {
 	listen 80;
-	listen [::]:80 default server;
+	listen [::]:80 default_server;
 	root   /var/www/html;
     index index.html index.htm index.nginx-debian.html;
 
@@ -67,7 +67,6 @@ sudo echo "server {
 	}
 }
 
-}
 " | sudo tee /etc/nginx/sites-available/default > /dev/null;
 
 sudo service nginx restart;

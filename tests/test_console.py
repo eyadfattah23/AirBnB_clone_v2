@@ -80,6 +80,15 @@ EOF  all  count  create  destroy  help  quit  show  update\n
             self.assertIsInstance(model_id, str)
             self.assertEqual(model_id, storage.all()[model_key_objects].id)
 
+        with patch('sys.stdout', new=StringIO()) as mock_stdout:
+            HBNBCommand().onecmd('create State')
+            model_id = mock_stdout.getvalue().strip()
+            model_key_objects = "State.{}".format(model_id)
+            storage.reload()
+            self.assertTrue(model_key_objects in storage.all())
+            self.assertIsInstance(model_id, str)
+            self.assertEqual(model_id, storage.all()[model_key_objects].id)
+
     def test_create_with_arg(self):
         """tests for create command"""
         with patch('sys.stdout', new=StringIO()) as mock_stdout:

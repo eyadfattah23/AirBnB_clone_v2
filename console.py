@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
                     except Exception as e:
                         continue
 
-                elif parameter_value.isdigit():
+                elif (parameter_value.isdigit()) or (parameter_value[0] == '-' and parameter_value[1:].isdigit()):
                     try:
                         parameter_value = int(parameter_value)
                     except ValueError:

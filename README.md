@@ -194,3 +194,5 @@ $ pip3 install Fabric3==1.14.post1
 ### [how to use tar](https://www.howtogeek.com/248780/how-to-compress-and-extract-files-using-the-tar-command-on-linux/)
 
 ### [hot to get compressing date/time](https://www.geeksforgeeks.org/get-current-date-and-time-using-python/)
+
+### [fabric for py3](https://github.com/mathiasertl/fabric)

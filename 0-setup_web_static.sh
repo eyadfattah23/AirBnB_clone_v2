@@ -6,19 +6,19 @@ sudo apt-get -y update;
 sudo apt-get -y install nginx;
 
 # Create the folder /data/ if it doesn’t already exist
-sudo mkdir /data
+sudo mkdir -p /data
 
 #Create the folder /data/web_static/ if it doesn’t already exist
-sudo mkdir /data/web_static
+sudo mkdir -p /data/web_static
 
 #Create the folder /data/web_static/releases/ if it doesn’t already exist
-sudo mkdir /data/web_static/releases
+sudo mkdir -p /data/web_static/releases
 
 #Create the folder /data/web_static/shared/ if it doesn’t already exist
-sudo mkdir /data/web_static/shared
+sudo mkdir -p /data/web_static/shared
 
 #Create the folder /data/web_static/releases/test/ if it doesn’t already exist
-sudo mkdir /data/web_static/releases/test
+sudo mkdir -p /data/web_static/releases/test
 
 
 #Create a fake HTML file /data/web_static/releases/test/index.html (with simple content, to test your Nginx configuration)
@@ -58,8 +58,8 @@ sudo echo "server {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4/;
     }
 
-	location /hbnb_static/ {
-		alias /data/web_static/current/hbnb_static/
+	location /hbnb_static {
+		alias /data/web_static/current/;
 	}
 
     error_page 404 /custom_404.html;

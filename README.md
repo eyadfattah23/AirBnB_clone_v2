@@ -190,3 +190,7 @@ $ pip3 install Fabric3==1.14.post1
 ```
 
 ### All tests are run by: `python3 -m unittest discover tests`
+
+### [how to use tar](https://www.howtogeek.com/248780/how-to-compress-and-extract-files-using-the-tar-command-on-linux/)
+
+### [hot to get compressing date/time](https://www.geeksforgeeks.org/get-current-date-and-time-using-python/)

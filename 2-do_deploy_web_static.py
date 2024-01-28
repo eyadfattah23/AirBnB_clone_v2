@@ -46,7 +46,8 @@ def do_deploy(archive_path):
             # mkdir if non-existent
             folder_name = archive_path.split("/")[-1][:-4]
             archive_name = archive_path.split("/")[-1]
-            run("sudo mkdir -p /data/web_static/releases/{}".format(folder_name))
+            run("sudo mkdir -p /data/web_static/releases/{}"
+                .format(folder_name))
 
             # Uncompress the archive
             run('sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}/'
@@ -56,17 +57,20 @@ def do_deploy(archive_path):
             # Delete the archive from the web server
             run('rm /tmp/{}'.format(archive_name))
 
-            # Delete the symbolic link /data/web_static/current from the web server
+            # Delete the sym link /data/web_static/current from the web server
             run('sudo mv /data/web_static/releases/{}/web_static/* \
-                /data/web_static/releases/{}/'.format(folder_name, folder_name))
+                /data/web_static/releases/{}/'
+                .format(folder_name, folder_name))
 
-            run('sudo rm -rf /data/web_static/releases/{}/web_static'.format(folder_name))
+            run('sudo rm -rf /data/web_static/releases/{}/web_static'
+                .format(folder_name))
 
             run('sudo rm -rf /data/web_static/current')
 
-            # Create a new the symbolic link /data/web_static/current on web server,
+            # Create a new the symlink /data/web_static/current on web server,
             # linked to the new version of your code
-            run('sudo ln -s /data/web_static/releases/{}/ /data/web_static/current'
+            run('sudo \
+                ln -s /data/web_static/releases/{}/ /data/web_static/current'
                 .format(folder_name))
 
             print('New version deployed!')

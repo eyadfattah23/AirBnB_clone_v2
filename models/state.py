@@ -8,10 +8,10 @@ from models import storage
 from models import HBNB_TYPE_STORAGE
 
 
-class State(BaseModel):
+class State(BaseModel, Base):
     """ State class """
-    name = Column(String(128), nullable=False)
     __tablename__ = 'states'
+    name = Column(String(128), nullable=False)
 
     cities = relationship("City", cascade='all, delete', backref='state')
 

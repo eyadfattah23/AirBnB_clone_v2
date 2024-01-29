@@ -83,7 +83,8 @@ class DBStorage:
         from models.place import Place
         from models.city import City
         from models.amenity import Amenity
+        from models.base_model import BaseModel, Base
         Base.metadata.create_all(self.__engine)
 
         self.__session = scoped_session(sessionmaker(
-            self.__engine, expire_on_commit=False))
+            self.__engine, expire_on_commit=False))()

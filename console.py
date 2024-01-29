@@ -18,6 +18,8 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
+    _MODELS = ['BaseModel', 'User', 'Place',
+               'State', 'City', 'Amenity', 'Review']
     classes = {
         'BaseModel': BaseModel, 'User': User, 'Place': Place,
         'State': State, 'City': City, 'Amenity': Amenity,
@@ -228,7 +230,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
+        '''print_list = []
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
@@ -242,7 +244,24 @@ class HBNBCommand(cmd.Cmd):
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
-        print(print_list)
+        print(print_list)'''
+        clas = args.split()
+        if args:
+            if clas[0] not in HBNBCommand._MODELS:
+                print("** class doesn't exist **")
+                return
+        objects = storage.all()
+        lis = []
+        if len(clas) == 0:
+            for obj in objects.values():
+                lis.append(obj.__str__())
+            print(lis)
+            return
+
+        for obj in objects.values():
+            if obj.__class__.__name__ == clas[0]:
+                lis.append(obj.__str__())
+        print(lis)
 
     def help_all(self):
         """ Help information for the all command """

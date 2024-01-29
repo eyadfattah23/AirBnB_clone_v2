@@ -1,9 +1,11 @@
 #!/usr/bin/python3
+
 """ Console Module """
 import cmd
 import sys
-from models.base_model import BaseModel
+import shlex
 from models.__init__ import storage
+from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -18,8 +20,6 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
-    _MODELS = ['BaseModel', 'User', 'Place',
-               'State', 'City', 'Amenity', 'Review']
     classes = {
         'BaseModel': BaseModel, 'User': User, 'Place': Place,
         'State': State, 'City': City, 'Amenity': Amenity,
@@ -120,42 +120,35 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        args = args.split()
-        class_name = args[0]
-        if class_name not in HBNBCommand.classes:
+        args_parts = shlex.split(args)
+        className = args_parts[0]  # state
+        pairs = args_parts[1:]  # ['name=Cairo', 'id=4dc46rec']
+
+        if className not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[class_name]()
-        try:
 
-            for parameter in args[1:]:
-                parameter_key = parameter.split('=')[0]
-                parameter_value = parameter.split('=')[1]
+        # now obj created- set attr
+        new_instance = HBNBCommand.classes[className]()
+        # loop key value pairs to extract each and setattr of new obj
+        for pair in pairs:
+            parts = pair.split("=")
 
-                if parameter_value.startswith('"') \
-                        and parameter_value.endswith('"'):
-                    parameter_value = parameter_value[1:-1].replace('"', r'\"')
-                    parameter_value = parameter_value.replace('_', ' ')
+            attr_name = parts[0]
+            attr_value = parts[1]
+            # remove internal double quotes
+            attr_value = attr_value.replace('"', r'\"')
+            attr_value = attr_value.replace('_', ' ')
 
-                elif '.' in parameter_value:
-                    try:
-                        parameter_value = float(parameter_value)
-                    except Exception as e:
-                        continue
+            if '.' in attr_value:
+                attr_value = float(attr_value)
+            elif attr_value.isdigit():
+                attr_value = int(attr_value)
+            else:
+                setattr(new_instance, attr_name, attr_value)
 
-                elif (parameter_value.isdigit()) or (parameter_value[0] == '-' and parameter_value[1:].isdigit()):
-                    try:
-                        parameter_value = int(parameter_value)
-                    except ValueError:
-                        continue
-                else:
-                    continue
-
-                setattr(new_instance, parameter_key, parameter_value)
-            new_instance.save()
-            print(new_instance.id)
-        except Exception as e:
-            print(str(e))
+        new_instance.save()
+        print(new_instance.id)
 
     def help_create(self):
         """ Help information for the create method """
@@ -230,38 +223,22 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        '''print_list = []
+        print_list = []
 
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
+
+            for k, v in storage.all(HBNBCommand.classes[args]).items():
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
+            for k, v in storage.all():
                 print_list.append(str(v))
 
-        print(print_list)'''
-        clas = args.split()
-        if args:
-            if clas[0] not in HBNBCommand._MODELS:
-                print("** class doesn't exist **")
-                return
-        objects = storage.all()
-        lis = []
-        if len(clas) == 0:
-            for obj in objects.values():
-                lis.append(obj.__str__())
-            print(lis)
-            return
-
-        for obj in objects.values():
-            if obj.__class__.__name__ == clas[0]:
-                lis.append(obj.__str__())
-        print(lis)
+        print(print_list)
 
     def help_all(self):
         """ Help information for the all command """

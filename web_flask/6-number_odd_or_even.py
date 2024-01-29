@@ -28,8 +28,9 @@ def C_text(text):
     return f"C {escape(text.replace('_', ' '))}"
 
 
+@app.route('/python', defaults={'text': 'is_cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python_text(text):
+def python_text(text='is_cool'):
     """display “Python ” followed by the value of the text variable """
     return f"Python {escape(text.replace('_', ' '))}"
 

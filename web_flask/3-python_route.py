@@ -4,6 +4,8 @@ script that starts a Flask web application
 Routes:
     /: display “Hello HBNB!”
     /hbnb: display “HBNB”
+    /c/<text>: display “C ”, followed by the value of the text variable
+    /python/<text>: display “Python ”, followed by the value of the text variable
 '''
 from flask import Flask
 from markupsafe import escape
@@ -28,6 +30,7 @@ def C_text(text):
     return f"C {escape(text.replace('_', ' '))}"
 
 
+@app.route('/python', defaults={'text': 'is_cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def python_text(text):
     """display “Python ” followed by the value of the text variable """

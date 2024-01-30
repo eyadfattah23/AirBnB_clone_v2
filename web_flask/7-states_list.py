@@ -41,7 +41,7 @@ def list_states():
     """display a HTML page
 
     Returns:
-        html file: the list of all State objects present in DBStorage sorted by name (A->Z
+        html file: the list of all State objects present in DBStorage
     """
     return render_template('7-states_list.html', states=states)
 

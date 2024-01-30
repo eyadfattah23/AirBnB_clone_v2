@@ -4,6 +4,11 @@ script that starts a Flask web application
 Routes:
     /: display “Hello HBNB!”
     /hbnb: display “HBNB”
+	/c/<text>: display “C ”, followed by the value of the text variable
+	/python/(<text>): display “Python ”, followed by the value of the text variable 
+	/number/<n>: display “n is a number” only if n is an integer
+	/number_template/<n>: display a HTML page only if n is an integer
+	/number_odd_or_even/<n>: display a HTML page only if n is an integer: 
 '''
 from flask import Flask, render_template
 from markupsafe import escape

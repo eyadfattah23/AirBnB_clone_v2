@@ -33,9 +33,6 @@ def teardown_appcontext(exception):
     storage.close()
 
 
-states = storage.all(State)
-
-
 @app.route('/states_list', strict_slashes=False)
 def list_states():
     """display a HTML page
@@ -43,6 +40,7 @@ def list_states():
     Returns:
         html file: the list of all State objects present in DBStorage
     """
+    states = storage.all(State)
     return render_template('7-states_list.html', states=states)
 
 

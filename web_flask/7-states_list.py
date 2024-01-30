@@ -28,7 +28,7 @@ def hello():
 
 
 @app.teardown_appcontext
-def teardown_appcontext(exception: Exception):
+def teardown_appcontext(exception):
     """After each request remove the current SQLAlchemy Session"""
     storage.close()
 

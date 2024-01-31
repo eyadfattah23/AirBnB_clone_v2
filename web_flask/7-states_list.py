@@ -39,7 +39,7 @@ def list_states():
 
 
 @app.teardown_appcontext
-def teardown_appcontext(exception):
+def teardown_appcontext(ctx):
     """After each request remove the current SQLAlchemy Session"""
     storage.close()
 

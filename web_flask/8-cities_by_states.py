@@ -12,7 +12,7 @@
 
 - Routes:
     /states_list: display a HTML page
-	/cities_by_states: display a HTML page
+    /cities_by_states: display a HTML page
 """
 from models import storage
 from models.state import State

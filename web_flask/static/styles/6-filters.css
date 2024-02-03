@@ -5,6 +5,9 @@
 	width: 100%;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
+	position: relative;
+	z-index: 999;
+	overflow: visible;
 }
 
 .locations {
@@ -16,6 +19,7 @@
 
 	line-height: 20px;
 	border-right: 1px solid #DDDDDD;
+	z-index: 999;
 }
 
 .filters .amenities {
@@ -26,6 +30,7 @@
     width: 25%;
 
 	line-height: 20px;
+	z-index: 999;
 }
 
 .popover {
@@ -42,6 +47,7 @@
 
     border: 1px solid #DDDDDD;
     border-radius: 4px;
+	z-index: 999;
 }
 
 .locations:hover .popover {
@@ -58,8 +64,6 @@ ul {
 	padding-bottom: 20px;
 }
 
-li {
-}	
 
 h2 {
 	font-size: 16px;

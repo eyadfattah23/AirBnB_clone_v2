@@ -195,4 +195,4 @@ $ pip3 install Fabric3==1.14.post1
 
 ### [hot to get compressing date/time](https://www.geeksforgeeks.org/get-current-date-and-time-using-python/)
 
-### [fabric for py3](https://github.com/mathiasertl/fabric)
+### [fabric for py3](https://github.com/mathiasertl/fabric) + [fabric intro](https://www.digitalocean.com/community/tutorials/how-to-use-fabric-to-automate-administration-tasks-and-deployments)

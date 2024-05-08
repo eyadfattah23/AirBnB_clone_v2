@@ -15,10 +15,10 @@ def do_pack():
     4. return the archive path if the archive has been correctly generated.
         Otherwise, it should return None'''
     try:
-        path = "versions"
+        path = "versions/"
         if not os.path.exists(path):
             os.makedirs(path)
-        current_time = datetime.datetime.now()
+        current_time = datetime.now()
 
         Year = current_time.year
         Month = current_time.month
@@ -27,12 +27,12 @@ def do_pack():
         Minute = current_time.minute
         Second = current_time.second
 
-        archive_name = f"web_static_\
-            {Year}{Month}{Day}{Hour}{Minute}{Second}.tgz"
+        archive_name = \
+            f"web_static_\{Year}{Month}{Day}\{Hour}{Minute}{Second}.tgz"
         archive_path = f"versions/{archive_name}"
         print(f"Packing web_static to {archive_path}")
 
         local(f'tar -cvzf {archive_path} web_static')
         return archive_path
     except Exception as e:
-        pass
+        return None

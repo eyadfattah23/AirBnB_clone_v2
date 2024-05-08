@@ -1,34 +1,38 @@
 #!/usr/bin/python3
-'''Fabric script
-generates a .tgz archive
-from the contents of the web_static folder of AirBnB Clone repo,
-using the function do_pack.'''
-
+'''
+a Fabric script that archives the contents of the web_static folder
+'''
 from fabric.api import local
 from datetime import datetime
 import os
 
 
 def do_pack():
-    '''
-    creates an archive from the contents of web_static/
-    '''
+    '''generates a tgz archive from the contents of the web_static folder where
+    1. All files in the folder web_static must are added to the final archive
+    2. All archives are stored in the folder versions (create if not created)
+    3. name of file is web_static_<year><month><day><hour><minute><second>.tgz
+    4. return the archive path if the archive has been correctly generated.
+        Otherwise, it should return None'''
     try:
+        path = "versions"
+        if not os.path.exists(path):
+            os.makedirs(path)
+        current_time = datetime.datetime.now()
 
-        if not os.path.exists('versions'):
-            os.makedirs('versions')
+        Year = current_time.year
+        Month = current_time.month
+        Day = current_time.day
+        Hour = current_time.hour
+        Minute = current_time.minute
+        Second = current_time.second
 
-        year = datetime.now().year
-        month = datetime.now().month
-        day = datetime.now().day
-        hour = datetime.now().hour
-        minute = datetime.now().minute
-        second = datetime.now().second
-        archive_name = "versions/web_static_{}{}{}{}{}{}".format(
-            year, month, day, hour, minute, second)
+        archive_name = f"web_static_\
+            {Year}{Month}{Day}{Hour}{Minute}{Second}.tgz"
+        archive_path = f"versions/{archive_name}"
+        print(f"Packing web_static to {archive_path}")
 
-        print(f'Packing web_static to {archive_name}')
-        local('tar -cvzf {}.tgz web_static'.format(archive_name))
-        return archive_name
+        local(f'tar -cvzf {archive_path} web_static')
+        return archive_path
     except Exception as e:
-        return None
+        pass

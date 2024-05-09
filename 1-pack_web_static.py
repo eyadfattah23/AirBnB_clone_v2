@@ -28,7 +28,7 @@ def do_pack():
         Second = current_time.second
 
         archive_name = \
-            f"web_static_\{Year}{Month}{Day}\{Hour}{Minute}{Second}.tgz"
+            f"web_static_{Year}{Month}{Day}{Hour}{Minute}{Second}.tgz"
         archive_path = f"versions/{archive_name}"
         print(f"Packing web_static to {archive_path}")
 

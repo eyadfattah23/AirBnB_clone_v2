@@ -34,13 +34,13 @@ def do_deploy(archive_path):
 
         sudo(
             f'tar -xzf /tmp/{archive_name} -C \
-                /data/web_static/releases/{archive_folder}')
+/data/web_static/releases/{archive_folder}')
 
         sudo(f'rm /tmp/{archive_name}')
 
         sudo(
             f'mv /data/web_static/releases/{archive_folder}/web_static/* \
-                /data/web_static/releases/{archive_folder}/')
+/data/web_static/releases/{archive_folder}/')
 
         sudo(f'rm -rf /data/web_static/releases/{archive_folder}/web_static')
 
@@ -48,7 +48,7 @@ def do_deploy(archive_path):
 
         sudo(
             f'ln -s /data/web_static/releases/{archive_folder}/ \
-                /data/web_static/current')
+/data/web_static/current')
 
         print('New version deployed!')
         return True

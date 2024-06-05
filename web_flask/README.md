@@ -26,3 +26,5 @@ If you want to import module1 from mypackage, you can do so using the following 
 `import mypackage.module1`
 
     When you run this import statement, Python will execute the code in **init**.py before it executes the import statement for module1. This can be useful if you want to do some initialization or setup before the other modules in the package are imported.
+
+call remove() method on the private session attribute (self.\_\_session) is based on [tips](https://docs.sqlalchemy.org/en/13/orm/contextual.html) or close() on the class Session [tips(https://docs.sqlalchemy.org/en/13/orm/session_api.html)]

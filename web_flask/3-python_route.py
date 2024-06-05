@@ -6,6 +6,7 @@ Routes:
     /hbnb: display “HBNB”
     /c/<text>: display “C ” followed the text variable
                 (replace underscore _ symbols with a space )
+    /python/<text>: “Python ”,followed by the value of the text variable
 '''
 from flask import Flask
 

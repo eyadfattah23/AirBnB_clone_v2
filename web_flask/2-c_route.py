@@ -37,10 +37,10 @@ def C_text(text):
     """display display “C ” followed by value of text variable
 
     Returns:
-        str:  "c <text>"
+        str:  "C <text>"
     """
 
-    return f"c {text.replace('_', ' ')}"
+    return f"C {text.replace('_', ' ')}"
     # return f"C {escape(text.replace('_', ' '))}"
 
 

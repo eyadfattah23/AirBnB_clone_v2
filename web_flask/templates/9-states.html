@@ -7,7 +7,7 @@
 </HEAD>
 
 <BODY>
-	{% if not stated %}
+	{% if not id %}
 	<H1>States</H1>
 	<UL>
 		{% for state in states.values()|sort(attribute='name')%}

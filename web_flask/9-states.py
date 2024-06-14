@@ -33,7 +33,8 @@ def states(id=None):
                 stated = state
                 break
 
-    return render_template('9-states.html', states=states, stated=stated, id=id)
+    return render_template('9-states.html', states=states, stated=stated,
+                           id=id)
 
 
 @app.teardown_appcontext

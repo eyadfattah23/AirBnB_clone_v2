@@ -6,7 +6,7 @@ from fabric.api import put, sudo, env
 from datetime import datetime
 import os
 
-env.hosts = ['54.84.44.145', '54.234.38.218']
+env.hosts = ['52.91.152.150', '34.227.91.173']
 env.user = 'ubuntu'
 
 

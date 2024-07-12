@@ -5,7 +5,7 @@ Fabric script creates and distributes archives to web servers
 
 from fabric.api import put, sudo, env
 
-env.hosts = ['54.84.44.145', '54.234.38.218']
+env.hosts = ['52.91.152.150', '34.227.91.173']
 env.user = 'ubuntu'
 
 pack_web_static = __import__('1-pack_web_static')
